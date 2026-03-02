@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destinatur — Travel Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#1AABB8;--teal-dark:#137f8a;--teal-xdark:#0d5f68;
+  --teal-light:#e3f7f9;--gold:#D4A020;--gold-light:#f0c84a;
+  --dark:#0d2535;--mid:#1e3d52;--text:#3a5a6e;
+  --light:#f4fbfc;--white:#fff;
+  --shadow:0 8px 32px rgba(13,37,53,.10);
+  --shadow-lg:0 20px 60px rgba(13,37,53,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Raleway',sans-serif;color:var(--dark);background:var(--white);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:76px;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(26,171,184,.12);box-shadow:0 2px 20px rgba(13,37,53,.07);transition:all .3s}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-wrap img{width:52px;height:52px;border-radius:50%;object-fit:cover;box-shadow:0 3px 12px rgba(26,171,184,.3)}
+.logo-text strong{display:block;font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--teal);letter-spacing:1px;line-height:1}
+.logo-text span{font-size:9px;font-weight:700;color:var(--gold);letter-spacing:3px;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{text-decoration:none;font-size:12px;font-weight:700;color:var(--mid);letter-spacing:1.5px;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--teal);transform:scaleX(0);transition:transform .3s}
+.nav-links a:hover{color:var(--teal)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.btn-nav{background:var(--teal)!important;color:white!important;padding:10px 22px;border-radius:30px;font-weight:800!important;box-shadow:0 4px 14px rgba(26,171,184,.4);transition:all .2s!important}
+.btn-nav::after{display:none!important}
+.btn-nav:hover{background:var(--teal-dark)!important;transform:translateY(-2px)!important}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:linear-gradient(150deg,rgba(13,37,53,.80) 0%,rgba(26,171,184,.28) 100%),url('https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1800&q=85') center/cover no-repeat;display:flex;align-items:center;padding:120px 5% 100px;position:relative}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(to bottom,transparent,var(--white))}
+.hero-content{max-width:700px;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,160,32,.18);border:1px solid rgba(212,160,32,.55);color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:30px;margin-bottom:22px;animation:fadeDown .7s ease forwards}
+h1{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,74px);font-weight:900;color:white;line-height:1.08;margin-bottom:22px;animation:fadeUp .8s .1s ease forwards;opacity:0}
+h1 em{font-style:italic;color:var(--gold-light)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.85);line-height:1.75;margin-bottom:38px;max-width:520px;animation:fadeUp .8s .2s ease forwards;opacity:0}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;animation:fadeUp .8s .3s ease forwards;opacity:0}
+.btn-primary{background:var(--gold);color:var(--dark);padding:15px 34px;border-radius:50px;font-weight:800;font-size:13px;letter-spacing:1.5px;text-decoration:none;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 24px rgba(212,160,32,.45);transition:all .3s}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-3px)}
+.btn-outline{color:white;border:2px solid rgba(255,255,255,.5);padding:13px 30px;border-radius:50px;font-weight:600;font-size:13px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{border-color:white;background:rgba(255,255,255,.1);transform:translateY(-2px)}
+
+/* STATS */
+.stats-strip{background:white;border-radius:20px;padding:26px 40px;max-width:860px;margin:0 auto;box-shadow:var(--shadow-lg);position:relative;z-index:10;margin-top:-55px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.stat-item{text-align:center;flex:1;min-width:90px}
+.stat-item .num{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--teal);line-height:1}
+.stat-item .lbl{font-size:11px;font-weight:600;color:var(--text);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.stat-div{width:1px;height:44px;background:rgba(26,171,184,.2)}
+
+/* SEARCH */
+.search-wrap{padding:36px 5% 0}
+.search-bar{background:white;border-radius:16px;padding:22px 28px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr auto;gap:16px;align-items:end;border:1.5px solid rgba(26,171,184,.12)}
+.sf label{display:block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+.sf select{width:100%;border:1.5px solid rgba(26,171,184,.2);border-radius:10px;padding:11px 14px;font-family:'Raleway',sans-serif;font-size:14px;color:var(--dark);background:var(--light);outline:none;appearance:none;cursor:pointer;transition:border-color .2s}
+.sf select:focus{border-color:var(--teal);background:white}
+.btn-search{background:var(--teal);color:white;border:none;cursor:pointer;padding:13px 26px;border-radius:10px;font-family:'Raleway',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:8px;transition:all .3s;white-space:nowrap;box-shadow:0 4px 14px rgba(26,171,184,.4)}
+.btn-search:hover{background:var(--teal-dark);transform:translateY(-2px)}
+
+/* SECTIONS */
+section{padding:80px 5%}
+.section-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.section-tag::before{content:'✦ '}
+h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.15;color:var(--dark)}
+.section-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:16px}
+
+/* FILTER TABS */
+.filter-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:38px}
+.tab{background:var(--light);border:1.5px solid rgba(26,171,184,.18);color:var(--text);font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:9px 20px;border-radius:30px;cursor:pointer;transition:all .2s}
+.tab:hover,.tab.active{background:var(--teal);border-color:var(--teal);color:white;box-shadow:0 4px 12px rgba(26,171,184,.35)}
+
+/* PACKAGES GRID */
+.packages-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pkg{background:white;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);border:1.5px solid rgba(26,171,184,.08);transition:all .4s;display:flex;flex-direction:column;cursor:pointer}
+.pkg:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:rgba(26,171,184,.3)}
+.pkg.featured{border-color:var(--gold)}
+.pkg-img-wrap{position:relative;overflow:hidden}
+.pkg-img{width:100%;height:210px;object-fit:cover;transition:transform .6s;display:block}
+.pkg:hover .pkg-img{transform:scale(1.07)}
+.pkg-dur{position:absolute;bottom:14px;left:14px;background:rgba(13,37,53,.85);color:white;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:20px;backdrop-filter:blur(4px)}
+.pkg-price-tag{position:absolute;top:14px;right:14px;background:var(--gold);color:var(--dark);padding:8px 14px;border-radius:12px;text-align:center;box-shadow:0 4px 12px rgba(212,160,32,.5);line-height:1.1}
+.pkg-price-tag .apenas{font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:block}
+.pkg-price-tag .valor{font-size:18px;font-weight:900;font-family:'Playfair Display',serif}
+.pkg-price-tag .pp{font-size:8px;font-weight:600;display:block}
+.pkg-badge-top{position:absolute;top:14px;left:14px;background:var(--teal);color:white;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+.pkg-body{padding:22px;flex:1;display:flex;flex-direction:column}
+.pkg-cat{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;display:block}
+.pkg-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--dark);margin-bottom:10px;line-height:1.25}
+.pkg-desc{font-size:13px;color:var(--text);line-height:1.75;margin-bottom:16px;flex:1}
+.pkg-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+.pkg-tag{background:var(--teal-light);color:var(--teal-dark);font-size:11px;font-weight:600;padding:4px 11px;border-radius:20px}
+.pkg-footer{border-top:1px solid rgba(26,171,184,.12);padding-top:18px;display:flex;align-items:center;justify-content:space-between}
+.pkg-from{font-size:11px;color:var(--text);font-weight:600}
+.pkg-valor{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--teal);line-height:1}
+.pkg-sub{font-size:11px;color:var(--text);margin-top:2px}
+.btn-reservar{background:var(--teal);color:white;border:none;cursor:pointer;padding:11px 20px;border-radius:10px;font-family:'Raleway',sans-serif;font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .3s}
+.btn-reservar:hover{background:var(--gold);color:var(--dark);transform:translateY(-2px)}
+.pkg.featured .btn-reservar{background:var(--gold);color:var(--dark)}
+.pkg.featured .btn-reservar:hover{background:var(--gold-light)}
+.pkg.hidden{display:none}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,37,53,.75);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px)}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:white;border-radius:24px;max-width:760px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.3);transform:translateY(30px) scale(.97);transition:transform .35s cubic-bezier(.34,1.56,.64,1);position:relative}
+.modal-overlay.open .modal{transform:none}
+.modal-hero{position:relative;height:260px;overflow:hidden;border-radius:24px 24px 0 0}
+.modal-hero img{width:100%;height:100%;object-fit:cover}
+.modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(13,37,53,.7) 0%,transparent 60%)}
+.modal-hero-info{position:absolute;bottom:22px;left:28px;z-index:1}
+.modal-hero-info h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:white;line-height:1.15}
+.modal-hero-info .modal-cat{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px}
+.modal-price-badge{position:absolute;top:20px;right:20px;background:var(--gold);color:var(--dark);padding:10px 16px;border-radius:14px;text-align:center;box-shadow:0 4px 14px rgba(212,160,32,.5);z-index:1;line-height:1.1}
+.modal-price-badge .apenas{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:block}
+.modal-price-badge .valor{font-size:22px;font-weight:900;font-family:'Playfair Display',serif}
+.modal-price-badge .pp{font-size:9px;display:block}
+.modal-close{position:absolute;top:16px;left:16px;width:36px;height:36px;background:rgba(255,255,255,.9);border:none;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .2s;color:var(--dark)}
+.modal-close:hover{background:white}
+.modal-body{padding:28px 32px 32px}
+.modal-meta{display:flex;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+.modal-meta-item{display:flex;align-items:center;gap:8px;background:var(--teal-light);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;color:var(--teal-dark)}
+.modal-section{margin-bottom:22px}
+.modal-section h4{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:12px;border-bottom:2px solid var(--teal-light);padding-bottom:8px}
+.modal-section p{font-size:14px;color:var(--text);line-height:1.8}
+.modal-includes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:4px}
+.modal-inc-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--dark);font-weight:500;background:var(--light);border-radius:9px;padding:9px 12px;border:1px solid rgba(26,171,184,.12)}
+.modal-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;padding-top:22px;border-top:1px solid rgba(26,171,184,.12)}
+.btn-modal-wa{background:#25D366;color:white;padding:14px 28px;border-radius:12px;font-family:'Raleway',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .3s;flex:1;justify-content:center;box-shadow:0 4px 14px rgba(37,211,102,.35)}
+.btn-modal-wa:hover{background:#1da851;transform:translateY(-2px)}
+.btn-modal-email{background:var(--teal);color:white;padding:14px 28px;border-radius:12px;font-family:'Raleway',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .3s;flex:1;justify-content:center}
+.btn-modal-email:hover{background:var(--teal-dark);transform:translateY(-2px)}
+
+/* WHY */
+.why-bg{background:linear-gradient(135deg,var(--dark) 0%,var(--mid) 100%);position:relative;overflow:hidden}
+.why-bg::before{content:'';position:absolute;top:-150px;right:-150px;width:600px;height:600px;background:radial-gradient(circle,rgba(26,171,184,.12) 0%,transparent 70%);border-radius:50%}
+.why-bg h2{color:white}
+.why-bg .section-tag{color:var(--gold-light)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.why-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px 22px;text-align:center;transition:all .3s}
+.why-card:hover{background:rgba(255,255,255,.09);border-color:rgba(26,171,184,.4);transform:translateY(-4px)}
+.why-icon{font-size:34px;margin-bottom:14px}
+.why-card h4{font-family:'Playfair Display',serif;font-size:17px;color:white;margin-bottom:10px}
+.why-card p{font-size:13px;color:rgba(255,255,255,.56);line-height:1.7}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.testi{background:white;border-radius:18px;padding:28px;box-shadow:var(--shadow);position:relative;transition:transform .3s;border:1.5px solid rgba(26,171,184,.07)}
+.testi:hover{transform:translateY(-4px)}
+.testi::before{content:'"';position:absolute;top:16px;right:22px;font-family:'Playfair Display',serif;font-size:72px;color:var(--teal-light);line-height:1}
+.testi-stars{color:var(--gold);font-size:14px;margin-bottom:14px}
+.testi-text{font-size:14px;color:var(--text);line-height:1.8;margin-bottom:22px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-av{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--teal-light)}
+.testi-name{font-weight:700;font-size:14px;color:var(--dark)}
+.testi-dest{font-size:11px;color:var(--teal);font-weight:600;margin-top:2px}
+
+/* CTA */
+.cta-wrap{padding:0 5% 80px}
+.cta-banner{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-xdark) 100%);border-radius:24px;padding:60px 52px;display:flex;align-items:center;justify-content:space-between;gap:36px;flex-wrap:wrap;position:relative;overflow:hidden}
+.cta-banner::before{content:'✈';position:absolute;right:150px;top:50%;transform:translateY(-50%);font-size:180px;opacity:.06;color:white;pointer-events:none}
+.cta-banner h2{color:white}
+.cta-banner p{color:rgba(255,255,255,.8);font-size:15px;line-height:1.7;margin-top:10px;max-width:500px}
+.cta-btns{display:flex;flex-direction:column;gap:12px;flex-shrink:0}
+.btn-cta-wa{background:#25D366;color:white;padding:16px 32px;border-radius:50px;border:none;cursor:pointer;font-family:'Raleway',sans-serif;font-weight:800;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 20px rgba(37,211,102,.35);transition:all .3s;white-space:nowrap}
+.btn-cta-wa:hover{background:#1da851;transform:translateY(-3px)}
+.btn-cta-o{background:transparent;color:white;padding:14px 32px;border-radius:50px;border:2px solid rgba(255,255,255,.5);font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .3s;white-space:nowrap}
+.btn-cta-o:hover{border-color:white;background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.contact-info{margin-top:18px;display:flex;flex-direction:column;gap:7px}
+.contact-line{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.75)}
+.contact-line span{color:white;font-weight:600}
+
+/* FOOTER */
+footer{background:var(--dark);padding:60px 5% 26px;color:rgba(255,255,255,.55)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:42px;margin-bottom:42px}
+.footer-brand p{font-size:13px;line-height:1.8;margin:14px 0 20px}
+.footer-brand .logo-text strong{color:white}
+.social-links{display:flex;gap:10px;align-items:center}
+.social-btn{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;color:white;text-decoration:none;transition:all .2s;font-weight:700}
+.social-btn:hover{background:var(--teal);border-color:var(--teal)}
+.social-btn.ig{background:rgba(225,48,108,.15);border-color:rgba(225,48,108,.3)}
+.social-btn.ig:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-color:transparent}
+.social-btn.wa{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.3)}
+.social-btn.wa:hover{background:#25D366;border-color:#25D366}
+.footer-col h5{color:white;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col a{color:rgba(255,255,255,.5);text-decoration:none;font-size:13px;transition:color .2s}
+.footer-col a:hover{color:var(--teal-light)}
+.footer-nl input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:11px 14px;color:white;font-family:'Raleway',sans-serif;font-size:13px;outline:none;margin-bottom:10px}
+.footer-nl input::placeholder{color:rgba(255,255,255,.3)}
+.footer-nl input:focus{border-color:var(--teal)}
+.btn-sub{width:100%;background:var(--teal);color:white;border:none;cursor:pointer;padding:11px;border-radius:9px;font-family:'Raleway',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;transition:background .2s}
+.btn-sub:hover{background:var(--teal-dark)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px}
+.footer-bottom a{color:var(--teal);text-decoration:none}
+.footer-contact{margin-bottom:18px;display:flex;flex-direction:column;gap:7px}
+.fc-line{display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.5)}
+.fc-line span{color:var(--teal-light);font-weight:600}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:28px;right:28px;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:white;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.5);z-index:999;transition:all .3s;animation:pulse 2.5s infinite}
+.wa-float:hover{transform:scale(1.1);background:#1da851}
+@keyframes pulse{0%,100%{box-shadow:0 6px 20px rgba(37,211,102,.5)}50%{box-shadow:0 6px 30px rgba(37,211,102,.8)}}
+
+/* ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:1024px){.packages-grid{grid-template-columns:repeat(2,1fr)}.why-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.packages-grid{grid-template-columns:1fr}.testi-grid{grid-template-columns:1fr}.why-grid{grid-template-columns:1fr 1fr}.nav-links{display:none}.search-bar{grid-template-columns:1fr}.cta-banner{flex-direction:column;text-align:center}.cta-banner p{max-width:100%}.footer-grid{grid-template-columns:1fr}.stat-div{display:none}.modal-includes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/message/XT3PTOWR66CKD1" target="_blank" class="wa-float" title="WhatsApp">💬</a>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo-wrap">
+    <img src="logo.jpg" alt="Destinatur">
+    <div class="logo-text"><strong>DESTINATUR</strong><span>Travel Agency</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#passeios">Passeios</a></li>
+    <li><a href="#passeios" onclick="setFilter('portugal')">🇵🇹 Portugal</a></li>
+    <li><a href="#passeios" onclick="setFilter('galiza')">🇪🇸 Galiza</a></li>
+    <li><a href="#sobre">Sobre Nós</a></li>
+    <li><a href="https://wa.me/message/XT3PTOWR66CKD1" target="_blank" class="btn-nav">Reservar Agora</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✦ Saídas desde o Norte de Portugal</div>
+    <h1>Descubra destinos <em>inesquecíveis</em> com a Destinatur</h1>
+    <p class="hero-sub">Passeios organizados de 1 e 2 dias por Portugal e Galiza. Transporte, guia e experiências únicas incluídos — a partir de <strong>€24,90</strong> por pessoa.</p>
+    <div class="hero-actions">
+      <a href="#passeios" class="btn-primary">✈ Ver Todos os Passeios</a>
+      <a href="https://wa.me/message/XT3PTOWR66CKD1" target="_blank" class="btn-outline">💬 Falar Connosco</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div style="padding:0 5%;position:relative;z-index:10">
+  <div class="stats-strip reveal">
+    <div class="stat-item"><div class="num">10+</div><div class="lbl">Destinos ativos</div></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><div class="num">€24,90</div><div class="lbl">Desde</div></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><div class="num">2</div><div class="lbl">Países</div></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><div class="num">100%</div><div class="lbl">Organizado</div></div>
+    <div class="stat-div"></div>
+    <div class="stat-item"><div class="num">923</div><div class="lbl">539-713</div></div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-bar reveal">
+    <div class="sf">
+      <label>Destino</label>
+      <select id="selectDest" onchange="searchFilter()">
+        <option value="">Todos os destinos</option>
+        <option value="buddha">Buddha Eden</option>
+        <option value="aveiro">Aveiro — Veneza de Portugal</option>
+        <option value="agueda">Águeda — Guarda-Chuvas</option>
+        <option value="lisboa">Lisboa — Noite de Fado</option>
+        <option value="cies">Ilhas Cíes</option>
+        <option value="samil">Samil Praia</option>
+        <option value="santiago-baiona">Santiago & Baiona</option>
+        <option value="grove">O Grove & Passeio de Barco</option>
+        <option value="santiago-grove">Santiago & O Grove (2 dias)</option>
+        <option value="braga">Braga & Gêres (2 dias)</option>
+      </select>
+    </div>
+    <div class="sf">
+      <label>Duração</label>
+      <select id="selectDur" onchange="searchFilter()">
+        <option value="">1 ou 2 dias</option>
+        <option value="1dia">1 Dia</option>
+        <option value="2dias">2 Dias</option>
+      </select>
+    </div>
+    <button class="btn-search" onclick="searchFilter()">🔍 Pesquisar</button>
+  </div>
+</div>
+
+<!-- PASSEIOS -->
+<section id="passeios">
+  <div class="section-hdr reveal">
+    <div>
+      <span class="section-tag">Os nossos passeios</span>
+      <h2>Todos os destinos disponíveis</h2>
+    </div>
+  </div>
+  <div class="filter-tabs reveal" id="filterTabs">
+    <button class="tab active" onclick="filterPkg(this,'all')">Todos</button>
+    <button class="tab" id="tab-1dia" onclick="filterPkg(this,'1dia')">📅 1 Dia</button>
+    <button class="tab" id="tab-2dias" onclick="filterPkg(this,'2dias')">📅 2 Dias</button>
+    <button class="tab" id="tab-portugal" onclick="filterPkg(this,'portugal')">🇵🇹 Portugal</button>
+    <button class="tab" id="tab-galiza" onclick="filterPkg(this,'galiza')">🇪🇸 Galiza</button>
+  </div>
+
+  <div class="packages-grid" id="pkgGrid">
+
+    <!-- BUDDHA EDEN -->
+    <div class="pkg reveal" data-cat="1dia portugal" data-id="buddha" onclick="openModal('buddha')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=700&q=80" alt="Buddha Eden">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€59,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 1 Dia</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">🌿 Portugal · Óbidos</span>
+        <div class="pkg-name">Buddha Eden</div>
+        <p class="pkg-desc">O maior jardim budista da Europa, nos arredores de Óbidos. Esculturas monumentais, lagos serenos e guerreiros de terracota.</p>
+        <div class="pkg-tags"><span class="pkg-tag">🚌 Transporte</span><span class="pkg-tag">🚂 Comboio turístico</span><span class="pkg-tag">🎟️ Entrada incluída</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor">€59,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('buddha')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AVEIRO -->
+    <div class="pkg reveal" data-cat="1dia portugal" data-id="aveiro" onclick="openModal('aveiro')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=700&q=80" alt="Aveiro">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€59,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 1 Dia</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">🛶 Portugal · Aveiro</span>
+        <div class="pkg-name">Aveiro — Veneza de Portugal</div>
+        <p class="pkg-desc">Canais com moliceiros, Casas de Riscas coloridas, centro histórico, almoço típico aveirense e baile animado!</p>
+        <div class="pkg-tags"><span class="pkg-tag">🚌 Autocarro</span><span class="pkg-tag">🍽️ Almoço incluído</span><span class="pkg-tag">💃 Baile incluído</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor">€59,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('aveiro')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÁGUEDA -->
+    <div class="pkg reveal" data-cat="1dia portugal" data-id="agueda" onclick="openModal('agueda')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=700&q=80" alt="Agueda">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€59,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 1 Dia</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">☂️ Portugal · Águeda</span>
+        <div class="pkg-name">Águeda — Guarda-Chuvas Coloridos</div>
+        <p class="pkg-desc">A famosa Rua dos Guarda-Chuvas, centro histórico, almoço típico com baile animado — gastronomia e diversão!</p>
+        <div class="pkg-tags"><span class="pkg-tag">🚌 Transporte</span><span class="pkg-tag">🍽️ Almoço + baile</span><span class="pkg-tag">🎒 Guia</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor">€59,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('agueda')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAMIL -->
+    <div class="pkg reveal" data-cat="1dia galiza" data-id="samil" onclick="openModal('samil')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80" alt="Samil">
+        <div class="pkg-price-tag" style="background:var(--teal)"><span class="apenas" style="color:rgba(255,255,255,.8)">Apenas</span><span class="valor" style="color:white">€24,90</span><span class="pp" style="color:rgba(255,255,255,.8)">por pessoa</span></div>
+        <div class="pkg-dur">📅 1 Dia</div>
+        <div class="pkg-badge-top">💸 Melhor Preço</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">🌊 Galiza · Vigo</span>
+        <div class="pkg-name">Samil Praia — Costa de Vigo</div>
+        <p class="pkg-desc">Dia de praia e relaxamento na costa de Vigo. Passeie junto ao mar, desfrute das areias e aprecie as vistas da ria.</p>
+        <div class="pkg-tags"><span class="pkg-tag">🚌 Transporte</span><span class="pkg-tag">🏖️ Dia livre na praia</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor">€24,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('samil')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÍES -->
+    <div class="pkg reveal" data-cat="1dia galiza" data-id="cies" onclick="openModal('cies')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=700&q=80" alt="Ilhas Cies">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€59,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 1 Dia</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">🏝️ Galiza · Espanha</span>
+        <div class="pkg-name">Ilhas Cíes — Paraíso Natural</div>
+        <p class="pkg-desc">Parque Nacional das Ilhas Atlânticas. Ferry, Praia de Rodas, trilhos panorâmicos, miradouros e fauna local única.</p>
+        <div class="pkg-tags"><span class="pkg-tag">⛴️ Ferry incluído</span><span class="pkg-tag">🏖️ Praia de Rodas</span><span class="pkg-tag">🚌 Autocarro</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor">€59,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('cies')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- O GROVE -->
+    <div class="pkg reveal" data-cat="1dia galiza" data-id="grove" onclick="openModal('grove')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=700&q=80" alt="O Grove">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€59,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 1 Dia</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">🦞 Galiza · Rías Baixas</span>
+        <div class="pkg-name">O Grove & Passeio de Barco</div>
+        <p class="pkg-desc">Capital do marisco! Barco pelas Rías Baixas com Mariscada Galega a bordo. Visita à Ilha de A Toxa — revestida a conchas de vieira.</p>
+        <div class="pkg-tags"><span class="pkg-tag">🚢 Barco incluído</span><span class="pkg-tag">🦞 Mariscada</span><span class="pkg-tag">🏝️ Ilha A Toxa</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor">€59,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('grove')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SANTIAGO & BAIONA -->
+    <div class="pkg reveal" data-cat="1dia galiza" data-id="santiago-baiona" onclick="openModal('santiago-baiona')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1572204292164-b35ba943fca7?w=700&q=80" alt="Santiago">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€79,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 1 Dia</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">⛪ Galiza · Santiago + Baiona</span>
+        <div class="pkg-name">Santiago de Compostela & Baiona</div>
+        <p class="pkg-desc">Catedral de Santiago, Missa do Peregrino, almoço galego e tarde em Baiona — Caravela Pinta e Fortaleza de Monterreal.</p>
+        <div class="pkg-tags"><span class="pkg-tag">⛪ Catedral</span><span class="pkg-tag">🍽️ Almoço incluído</span><span class="pkg-tag">⚓ Baiona</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor">€79,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('santiago-baiona')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISBOA -->
+    <div class="pkg featured reveal" data-cat="2dias portugal" data-id="lisboa" onclick="openModal('lisboa')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1580323956656-26bbb1206b49?w=700&q=80" alt="Lisboa">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€239,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 2 Dias · 6 e 7 Jun</div>
+        <div class="pkg-badge-top">⭐ Destaque</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">🎵 Portugal · Lisboa</span>
+        <div class="pkg-name">Lisboa — Noite de Fado</div>
+        <p class="pkg-desc">Dia 1: Fátima + Lisboa com jantar e Noite de Fados. Dia 2: Torre de Belém, Jerónimos, Pastel de Belém e HippoTrip!</p>
+        <div class="pkg-tags"><span class="pkg-tag">🎵 Noite de Fado</span><span class="pkg-tag">🏰 Fátima</span><span class="pkg-tag">🏨 Hotel</span><span class="pkg-tag">🚢 HippoTrip</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor" style="color:var(--gold)">€239,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('lisboa')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SANTIAGO & O GROVE 2 DIAS -->
+    <div class="pkg featured reveal" data-cat="2dias galiza" data-id="santiago-grove" onclick="openModal('santiago-grove')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80" alt="Santiago Grove">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€239,90</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 2 Dias</div>
+        <div class="pkg-badge-top">🌊 Sabores do Mar</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">⛪🦞 Galiza · Santiago + Grove</span>
+        <div class="pkg-name">Santiago de Compostela & O Grove</div>
+        <p class="pkg-desc">Dia 1: O Grove, barco, Mariscada Galega, Ilha A Toxa. Dia 2: Santiago, Catedral e Praia da Lanzada. Alojamento incluído.</p>
+        <div class="pkg-tags"><span class="pkg-tag">⛴️ Barco incluído</span><span class="pkg-tag">🦞 Mariscada</span><span class="pkg-tag">🏨 Alojamento</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor" style="color:var(--gold)">€239,90</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('santiago-grove')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRAGA & GÊRES -->
+    <div class="pkg featured reveal" data-cat="2dias portugal" data-id="braga" onclick="openModal('braga')">
+      <div class="pkg-img-wrap">
+        <img class="pkg-img" src="https://images.unsplash.com/photo-1552083375-1447ce886485?w=700&q=80" alt="Braga Geres">
+        <div class="pkg-price-tag"><span class="apenas">Apenas</span><span class="valor">€255</span><span class="pp">por pessoa</span></div>
+        <div class="pkg-dur">📅 2 Dias</div>
+        <div class="pkg-badge-top">🌿 Natureza</div>
+      </div>
+      <div class="pkg-body">
+        <span class="pkg-cat">🌿 Portugal · Braga + Gerês</span>
+        <div class="pkg-name">Braga & Gêres</div>
+        <p class="pkg-desc">Dia 1: Gerês — barco, jipe pelo Parque Nacional, Santuário São Bento. Dia 2: Braga — Bom Jesus, Catedral Sé.</p>
+        <div class="pkg-tags"><span class="pkg-tag">🚤 Barco</span><span class="pkg-tag">🏍️ Jipe incluído</span><span class="pkg-tag">🏨 Jantar + aloj.</span></div>
+        <div class="pkg-footer">
+          <div><div class="pkg-from">A partir de</div><div class="pkg-valor" style="color:var(--gold)">€255</div><div class="pkg-sub">por pessoa</div></div>
+          <button class="btn-reservar" onclick="event.stopPropagation();openModal('braga')">Ver Detalhes →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="sobre" class="why-bg">
+  <div class="section-hdr reveal"><div><span class="section-tag">Porque escolher-nos</span><h2>Viagens organizadas,<br>memórias para sempre</h2></div></div>
+  <div class="why-grid">
+    <div class="why-card reveal"><div class="why-icon">🚌</div><h4>Transporte Incluído</h4><p>Autocarro de turismo confortável com partida de ponto combinado e regresso garantido.</p></div>
+    <div class="why-card reveal"><div class="why-icon">🎒</div><h4>Guias Especializados</h4><p>Acompanhamento por guias locais com conhecimento profundo de cada destino.</p></div>
+    <div class="why-card reveal"><div class="why-icon">💰</div><h4>Preços Acessíveis</h4><p>A partir de €24,90 — o melhor custo-benefício para escapadinhas inesquecíveis.</p></div>
+    <div class="why-card reveal"><div class="why-icon">📞</div><h4>Apoio Permanente</h4><p>Equipa disponível antes e durante a viagem. Contacte-nos em 923-539-713.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:var(--light)">
+  <div class="section-hdr reveal"><div><span class="section-tag">Depoimentos</span><h2>O que dizem os nossos clientes</h2></div></div>
+  <div class="testi-grid">
+    <div class="testi reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Fui ao O Grove com a Destinatur e foi incrível! A mariscada a bordo e as paisagens das Rías Baixas foram perfeitas. Organização impecável do início ao fim.</p>
+      <div class="testi-author"><img class="testi-av" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Ana"><div><div class="testi-name">Ana Ferreira</div><div class="testi-dest">📍 O Grove & Rías Baixas</div></div></div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">O Braga & Gêres foi uma experiência única. O jipe pelo parque foi o ponto alto! Recomendo a todos que gostam de natureza e cultura portuguesa.</p>
+      <div class="testi-author"><img class="testi-av" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="João"><div><div class="testi-name">João Rodrigues</div><div class="testi-dest">📍 Braga & Parque do Gerês</div></div></div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">A noite de fado em Lisboa foi mágica! Dois dias perfeitos, tudo muito bem organizado. Já estamos a planear a próxima viagem com a Destinatur!</p>
+      <div class="testi-author"><img class="testi-av" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Marta"><div><div class="testi-name">Marta Costa</div><div class="testi-dest">📍 Lisboa — Noite de Fado</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div id="contato" class="cta-wrap">
+  <div class="cta-banner reveal">
+    <div>
+      <h2>Pronto para a sua<br>próxima escapadinha?</h2>
+      <p>Fale connosco e reserve o seu lugar! Lugares limitados — garanta já a sua vaga.</p>
+      <div class="contact-info">
+        <div class="contact-line">📞 <span>923-539-713</span></div>
+        <div class="contact-line">📧 <span>reservas.destinatur@gmail.com</span></div>
+        <div class="contact-line">📱 <span>@destinatur_</span></div>
+      </div>
+    </div>
+    <div class="cta-btns">
+      <a href="https://wa.me/message/XT3PTOWR66CKD1" target="_blank" class="btn-cta-wa">💬 WhatsApp — Reservar Já</a>
+      <a href="mailto:reservas.destinatur@gmail.com" class="btn-cta-o">📧 Enviar Email</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-wrap" style="margin-bottom:0">
+        <img src="logo.jpg" alt="Destinatur" style="width:44px;height:44px;border-radius:50%;object-fit:cover">
+        <div class="logo-text"><strong>DESTINATUR</strong><span>Travel Agency</span></div>
+      </div>
+      <p>Especialistas em passeios organizados por Portugal e Galiza. Experiências únicas e inesquecíveis a preços acessíveis para todos.</p>
+      <div class="footer-contact">
+        <div class="fc-line">📞 <span>923-539-713</span></div>
+        <div class="fc-line">📧 <span>reservas.destinatur@gmail.com</span></div>
+      </div>
+      <div class="social-links">
+        <a class="social-btn ig" href="https://www.instagram.com/destinatur_" target="_blank" title="Instagram @destinatur_">📸</a>
+        <a class="social-btn wa" href="https://wa.me/message/XT3PTOWR66CKD1" target="_blank" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Portugal</h5>
+      <ul>
+        <li><a href="#" onclick="openModal('buddha');return false">Buddha Eden</a></li>
+        <li><a href="#" onclick="openModal('aveiro');return false">Aveiro</a></li>
+        <li><a href="#" onclick="openModal('agueda');return false">Águeda</a></li>
+        <li><a href="#" onclick="openModal('lisboa');return false">Lisboa — Fado</a></li>
+        <li><a href="#" onclick="openModal('braga');return false">Braga & Gêres</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Galiza</h5>
+      <ul>
+        <li><a href="#" onclick="openModal('samil');return false">Samil Praia</a></li>
+        <li><a href="#" onclick="openModal('cies');return false">Ilhas Cíes</a></li>
+        <li><a href="#" onclick="openModal('grove');return false">O Grove & Barco</a></li>
+        <li><a href="#" onclick="openModal('santiago-baiona');return false">Santiago & Baiona</a></li>
+        <li><a href="#" onclick="openModal('santiago-grove');return false">Santiago & O Grove</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-nl">
+      <h5>Newsletter</h5>
+      <p style="font-size:12px;line-height:1.7;margin-bottom:14px">Receba promoções e novidades Destinatur.</p>
+      <input type="email" id="nlEmail" placeholder="o_seu@email.com">
+      <button class="btn-sub" onclick="subscribeNewsletter()">Subscrever</button>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Destinatur Travel Agency — Todos os direitos reservados.</span>
+    <div style="display:flex;gap:18px"><a href="#">Privacidade</a><a href="#">Termos</a></div>
+  </div>
+</footer>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-hero">
+      <img id="modalImg" src="" alt="">
+      <div class="modal-price-badge">
+        <span class="apenas">Apenas</span>
+        <span class="valor" id="modalPrice"></span>
+        <span class="pp">por pessoa</span>
+      </div>
+      <div class="modal-hero-info">
+        <div class="modal-cat" id="modalCat"></div>
+        <h3 id="modalTitle"></h3>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-section"><h4>Sobre o Passeio</h4><p id="modalDesc"></p></div>
+      <div class="modal-section"><h4>Programa do Dia</h4><p id="modalProgram"></p></div>
+      <div class="modal-section"><h4>O que está incluído</h4><div class="modal-includes" id="modalIncludes"></div></div>
+      <div class="modal-actions">
+        <a id="modalWA" href="https://wa.me/message/XT3PTOWR66CKD1" target="_blank" class="btn-modal-wa">💬 Reservar via WhatsApp</a>
+        <a id="modalEmail" href="mailto:reservas.destinatur@gmail.com" class="btn-modal-email">📧 Reservar por Email</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const WA = 'https://wa.me/message/XT3PTOWR66CKD1';
+const EMAIL = 'reservas.destinatur@gmail.com';
+
+const passeios = {
+  buddha:{
+    title:'Buddha Eden',cat:'🌿 Portugal · Óbidos',price:'€59,90',dur:'1 Dia',pais:'🇵🇹 Portugal',
+    img:'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=900&q=85',
+    desc:'Embarque numa experiência única e relaxante no maior jardim budista da Europa, localizado no coração da região Oeste, nos arredores de Óbidos. O Buddha Eden é um espaço mágico, criado para promover a paz e a harmonia, repleto de esculturas monumentais, lagos serenos e uma atmosfera que convida à contemplação.',
+    program:'Saída em autocarro de turismo. Chegada ao Buddha Eden — Explore livremente este jardim contemplativo, admire os enormes Budas, os guerreiros de terracota, os pagodes coloridos e as paisagens de cortar a respiração. Comboio turístico incluído para percorrer as vastas áreas do parque sem cansaço.',
+    includes:['🎟️ Entrada no parque','🚂 Comboio turístico','🚌 Transporte (ida/volta)','🎒 Guia turístico']
+  },
+  aveiro:{
+    title:'Aveiro — Veneza de Portugal',cat:'🛶 Portugal · Aveiro',price:'€59,90',dur:'1 Dia',pais:'🇵🇹 Portugal',
+    img:'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=900&q=85',
+    desc:'Aveiro, conhecida como a "Veneza de Portugal", surpreende com os seus coloridos moliceiros a deslizarem pelos canais, as famosas casas de riscas e uma gastronomia inconfundível. Um passeio inesquecível!',
+    program:'Saída em autocarro de turismo. Paragem no percurso para pequeno-almoço (livre). Chegada a Aveiro — visita ao centro histórico e aos canais com moliceiros. Almoço típico aveirense com baile animado incluído! Visita às Casas de Riscas coloridas e regresso ao ponto de origem.',
+    includes:['🚌 Transporte (ida/volta)','🍽️ Almoço típico incluído','💃 Baile animado','🎒 Guia turístico']
+  },
+  agueda:{
+    title:'Águeda — Guarda-Chuvas Coloridos',cat:'☂️ Portugal · Águeda',price:'€59,90',dur:'1 Dia',pais:'🇵🇹 Portugal',
+    img:'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=900&q=85',
+    desc:'Águeda é a cidade dos guarda-chuvas coloridos, conhecida pelas suas ruas vibrantes. Desfrute de um dia cheio de cor, cultura, gastronomia e diversão com almoço típico e baile incluídos!',
+    program:'Saída em autocarro de turismo. Partida para Águeda, paragem para pequeno-almoço (livre). Visita rápida ao centro histórico e à famosa Rua dos Guarda-Chuvas. Almoço típico com baile animado — uma experiência única de gastronomia e diversão! Regresso ao ponto de origem.',
+    includes:['🚌 Transporte (ida/volta)','🍽️ Almoço típico com baile','☂️ Visita Rua Guarda-Chuvas','🎒 Guia especializado']
+  },
+  samil:{
+    title:'Samil Praia — Costa de Vigo',cat:'🌊 Galiza · Vigo',price:'€24,90',dur:'1 Dia',pais:'🇪🇸 Galiza',
+    img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=85',
+    desc:'Um dia para desfrutar do melhor da costa de Vigo, Galiza. A Praia de Samil oferece areias douradas, mar limpo e vistas deslumbrantes sobre a ria de Vigo e as ilhas próximas.',
+    program:'Partida em autocarro de turismo. Saída do local combinado em direção à Praia de Samil. Paragem no percurso para pequeno-almoço (livre). Chegada à famosa Praia de Samil — dia livre para passear, relaxar nas areias e apreciar as vistas. Regresso em hora a indicar.',
+    includes:['🚌 Transporte (ida/volta)','🏖️ Dia livre na praia','🌊 Praia de Samil']
+  },
+  cies:{
+    title:'Ilhas Cíes — Paraíso Natural',cat:'🏝️ Galiza · Espanha',price:'€59,90',dur:'1 Dia',pais:'🇪🇸 Galiza',
+    img:'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&q=85',
+    desc:'As Ilhas Cíes fazem parte do Parque Nacional Marítimo-Terrestre das Ilhas Atlânticas da Galiza — um paraíso natural de areias brancas e águas cristalinas.',
+    program:'Saída em autocarro para o porto de Vigo. Paragem para pequeno-almoço (livre). Travessia de ferry até às Ilhas Cíes. Tempo livre: relaxar na Praia de Rodas, banho em águas cristalinas, caminhadas por trilhos e miradouros panorâmicos. Passseios opcionais: subida ao Monte Faro. Regresso de ferry a Vigo.',
+    includes:['🚌 Transporte autocarro','⛴️ Ferry (ida/volta)','🏖️ Praia de Rodas','🗺️ Trilhos panorâmicos']
+  },
+  grove:{
+    title:'O Grove & Passeio de Barco',cat:'🦞 Galiza · Rías Baixas',price:'€59,90',dur:'1 Dia',pais:'🇪🇸 Galiza',
+    img:'https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=900&q=85',
+    desc:'O Grove é a capital do marisco! Um dia inesquecível onde o mar e a gastronomia são os protagonistas. Passeio de barco pelas Rías Baixas com almoço tradicional galego a bordo.',
+    program:'Partida em autocarro de turismo. Chegada a O Grove — embarque num fantástico passeio de barco pelas Rías Baixas. Almoço a bordo com Mariscada Galega tradicional. Navegação pelas magníficas Rías Baixas. Visita à Ilha de A Toxa, revestida com conchas de vieira. Regresso ao ponto de origem.',
+    includes:['🚌 Transporte (ida/volta)','🚢 Passeio de barco','🦞 Mariscada Galega a bordo','🏝️ Ilha de A Toxa']
+  },
+  'santiago-baiona':{
+    title:'Santiago de Compostela & Baiona',cat:'⛪ Galiza · Santiago + Baiona',price:'€79,90',dur:'1 Dia',pais:'🇪🇸 Galiza',
+    img:'https://images.unsplash.com/photo-1572204292164-b35ba943fca7?w=900&q=85',
+    desc:'Um dia completo combinando tradição, gastronomia e vistas deslumbrantes da Galiza. Da grandiosidade de Santiago de Compostela à história marítima de Baiona.',
+    program:'Saída em autocarro. Paragem para pequeno-almoço (livre). Manhã em Santiago de Compostela — visita à magnífica Catedral, túmulo do Apóstolo Santiago, Missa do Peregrino (horário), centro histórico e cafés típicos. Almoço com pratos tradicionais galegos. Tarde em Baiona — Virgem da Rocha, Caravela Pinta, Fortaleza de Monterreal. Regresso.',
+    includes:['🚌 Transporte (ida/volta)','⛪ Visita à Catedral','🍽️ Almoço galego incluído','⚓ Baiona histórica']
+  },
+  lisboa:{
+    title:'Lisboa — Noite de Fado',cat:'🎵 Portugal · Lisboa · 6 e 7 Jun',price:'€239,90',dur:'2 Dias',pais:'🇵🇹 Portugal',
+    img:'https://images.unsplash.com/photo-1580323956656-26bbb1206b49?w=900&q=85',
+    desc:'Dois dias inesquecíveis em Lisboa! Fé em Fátima, tradição no Fado, história em Belém e aventura no HippoTrip. Uma experiência completa da cultura portuguesa.',
+    program:'DIA 1 — História, Património e Tradição: Viagem de autocarro, paragem em Fátima (almoço num restaurante local), visita ao Santuário de Nossa Senhora de Fátima. Viagem para Lisboa, jantar com Noite de Fados. Hotel para descanso.\n\nDIA 2 — Cidades Cativantes: Pequeno-almoço no hotel. Torre de Belém e Mosteiro dos Jerónimos (entradas não incluídas). Prove o Pastel de Belém! HippoTrip — aventura por terra e água (90 min). Regresso.',
+    includes:['🚌 Transporte (ida/volta)','🏨 Hotel (1 noite)','🎵 Noite de Fados','🏰 Visita a Fátima','🚢 HippoTrip','🍽️ Jantar incluído']
+  },
+  'santiago-grove':{
+    title:'Santiago de Compostela & O Grove',cat:'⛪🦞 Galiza · 2 Dias',price:'€239,90',dur:'2 Dias',pais:'🇪🇸 Galiza',
+    img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=85',
+    desc:'Dois dias a descobrir o melhor da Galiza — os sabores do mar em O Grove e o património único de Santiago de Compostela. Uma experiência completa e inesquecível.',
+    program:'DIA 1 — Sabores do Mar: Partida em autocarro. O Grove — passeio de barco pelas Rías Baixas com Mariscada Galega a bordo. Ilha de A Toxa. Passeio panorâmico pelas Rías Baixas, aldeias marinhas. Praia da Lanzada. Chegada ao hotel, jantar e alojamento.\n\nDIA 2 — Santiago de Compostela: Pequeno-almoço no hotel. Catedral de Santiago de Compostela — visita ao interior, Missa do Peregrino, centro histórico. Regresso ao local de origem.',
+    includes:['🚌 Transporte (ida/volta)','🏨 Alojamento + jantar','🚢 Passeio de barco','🦞 Mariscada Galega','⛪ Catedral de Santiago','🏝️ Ilha de A Toxa']
+  },
+  braga:{
+    title:'Braga & Gêres',cat:'🌿 Portugal · Braga + Gerês',price:'€255',dur:'2 Dias',pais:'🇵🇹 Portugal',
+    img:'https://images.unsplash.com/photo-1552083375-1447ce886485?w=900&q=85',
+    desc:'Dois dias de natureza, emoção e património com a Destinatur! Do Parque Nacional Peneda-Gerês à cidade histórica de Braga — a catedral mais antiga de Portugal.',
+    program:'DIA 1 — Aventura no Gerês: Saída em autocarro (seguro incluído). Paragem para pequeno-almoço (livre). Passeio de barco na Albufeira da Caniçada, Rio Cávado — paisagens naturais do Parque. Almoço. Passeio de jipe pelo Parque (trilhos panorâmicos, cascatas, miradouros). Visita ao Santuário de São Bento da Porta Aberta. Jantar e alojamento.\n\nDIA 2 — Braga: Pequeno-almoço no hotel. Santuário do Bom Jesus do Monte e do Sameiro. Almoço. Centro histórico de Braga — Catedral da Sé (mais antiga de Portugal). Regresso.',
+    includes:['🚌 Transporte (ida/volta)','🏨 Alojamento + jantar','🚤 Passeio de barco (Gerês)','🏍️ Jipe pelo Parque','⛪ Santuário São Bento','🏰 Catedral Sé de Braga']
+  }
+};
+
+function openModal(id){
+  const p = passeios[id];
+  if(!p) return;
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalImg').alt = p.title;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalPrice').textContent = p.price;
+
+  // meta
+  const meta = document.getElementById('modalMeta');
+  meta.innerHTML = `
+    <div class="modal-meta-item">📅 ${p.dur}</div>
+    <div class="modal-meta-item">${p.pais}</div>
+    <div class="modal-meta-item">💰 ${p.price} por pessoa</div>
+    <div class="modal-meta-item">📞 923-539-713</div>
+  `;
+
+  document.getElementById('modalDesc').textContent = p.desc;
+
+  // program with line breaks
+  document.getElementById('modalProgram').innerHTML = p.program.replace(/\n/g,'<br>');
+
+  // includes
+  const inc = document.getElementById('modalIncludes');
+  inc.innerHTML = p.includes.map(i=>`<div class="modal-inc-item">${i}</div>`).join('');
+
+  // links with pre-filled subject
+  const subject = encodeURIComponent(`Reserva: ${p.title}`);
+  const body = encodeURIComponent(`Olá Destinatur!\n\nGostaria de reservar uma vaga para o passeio: ${p.title}\n\nPreço: ${p.price} por pessoa\n\nO meu nome: \nNº de pessoas: \nData preferida: \n\nObrigado!`);
+  document.getElementById('modalEmail').href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+  document.getElementById('modalWA').href = WA;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e){
+  if(e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+// Filter
+function filterPkg(btn, cat){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pkg').forEach(pkg=>{
+    const cats = pkg.dataset.cat || '';
+    pkg.classList.toggle('hidden', cat!=='all' && !cats.includes(cat));
+  });
+  document.getElementById('passeios').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function setFilter(cat){
+  setTimeout(()=>{
+    const tab = document.getElementById('tab-'+cat);
+    if(tab) filterPkg(tab, cat);
+  }, 100);
+}
+
+function searchFilter(){
+  const dest = document.getElementById('selectDest').value;
+  const dur = document.getElementById('selectDur').value;
+
+  if(dest){
+    // Open specific modal
+    openModal(dest);
+    return;
+  }
+  if(dur){
+    const tab = document.getElementById('tab-'+dur);
+    if(tab) filterPkg(tab, dur);
+    document.getElementById('passeios').scrollIntoView({behavior:'smooth'});
+  }
+}
+
+// Newsletter
+function subscribeNewsletter(){
+  const email = document.getElementById('nlEmail').value;
+  if(!email || !email.includes('@')){
+    alert('Por favor insira um email válido.');
+    return;
+  }
+  window.location.href = `mailto:${EMAIL}?subject=Newsletter%20Destinatur&body=Quero%20receber%20novidades%20da%20Destinatur%21%0A%0AEmail%3A%20${encodeURIComponent(email)}`;
+}
+
+// Reveal on scroll
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'), i*70);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Nav shadow
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.boxShadow = window.scrollY>40
+    ? '0 4px 28px rgba(13,37,53,.14)' : '0 2px 20px rgba(13,37,53,.07)';
+});
+</script>
+</body>
+</html>
